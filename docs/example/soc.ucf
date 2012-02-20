@@ -1,0 +1,14 @@
+NET "clk_i" LOC = "T9";
+NET "leds_o<7>" LOC = "P11";
+NET "leds_o<6>" LOC = "P12";
+NET "leds_o<5>" LOC = "N12";
+NET "leds_o<4>" LOC = "P13";
+NET "leds_o<3>" LOC = "N14";
+NET "leds_o<2>" LOC = "L12";
+NET "leds_o<1>" LOC = "P14";
+NET "leds_o<0>" LOC = "K12";
+NET "rxd_i" LOC = "T13";
+NET "txd_o" LOC = "R13";
+
+NET "clk_i" TNM_NET = clk_i;
+TIMESPEC TS_clk_i = PERIOD "clk_i" 50 MHz HIGH 50%;

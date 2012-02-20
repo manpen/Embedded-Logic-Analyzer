@@ -1,0 +1,78 @@
+###############################################################################################
+# Project:
+#   Logic Analyzer (Bachelor Thesis)
+#   Manuel Penschuck - manuel at penschuck dot eu
+#   Goethe Universitaet Frankfurt/Main, Deutschland
+#   Institut fuer Informatik, Professur fuer Eingebette Systeme
+#
+# Create Date:
+#   18.08.2011
+#
+# Description:
+#   This module defines a double port memory entity with a variable 
+#   address and data width. One port is write-only, the other one read-only.
+#   
+#   The architecture provided supports only a fixed data width, namely
+#   [data_width_g] = 32.
+#  
+#   Therefore the address width has to be atleast
+#   [addr_width_g] = 9 + ceil(log([bram_count]))
+#
+#   Furthermore the archticture uses Xilinx Spartan 3 BRAM-Blocks, rendering
+#   it device-dependend.
+#
+#   This limitations may be overcome by implementing a new architecture.
+#
+# Additional Comments:
+#   This program is free software: you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation, either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+###############################################################################################
+NET "sys_clk_i" LOC = "T9";
+
+NET "leds_o<7>" LOC = "P11";
+NET "leds_o<6>" LOC = "P12";
+NET "leds_o<5>" LOC = "N12";
+NET "leds_o<4>" LOC = "P13";
+NET "leds_o<3>" LOC = "N14";
+NET "leds_o<2>" LOC = "L12";
+NET "leds_o<1>" LOC = "P14";
+NET "leds_o<0>" LOC = "K12";
+
+NET "buttons_i<3>" LOC ="L14";
+NET "buttons_i<2>" LOC ="L13";
+NET "buttons_i<1>" LOC ="M14";
+NET "buttons_i<0>" LOC ="M13";
+
+NET "switches_i<7>" LOC ="K13";
+NET "switches_i<6>" LOC ="K14";
+NET "switches_i<5>" LOC ="J13";
+NET "switches_i<4>" LOC ="J14";
+NET "switches_i<3>" LOC ="H13";
+NET "switches_i<2>" LOC ="H14";
+NET "switches_i<1>" LOC ="G12";
+NET "switches_i<0>" LOC ="F12";
+
+NET "segment7_o<10>" LOC ="E13";
+NET "segment7_o<9>" LOC ="F14";
+NET "segment7_o<8>" LOC ="G14";
+NET "segment7_o<7>" LOC ="D14";
+NET "segment7_o<6>" LOC ="N16";
+NET "segment7_o<5>" LOC ="F13";
+NET "segment7_o<4>" LOC ="R16";
+NET "segment7_o<3>" LOC ="P15";
+NET "segment7_o<2>" LOC ="N15";
+NET "segment7_o<1>" LOC ="G13";
+NET "segment7_o<0>" LOC ="E14";
+
+NET "rxd_i" LOC = "T13";
+NET "txd_o" LOC = "R13";

@@ -1,0 +1,11 @@
+This is a very easy example to demonstrate how
+to embedded the logic analyzer into an existing
+desing.
+
+The host design is a 26 bit counter. The analyzer
+is hooked up to the lower bits of the counter's
+vector. The .ucf file can be used for a 
+ DIGILENT Spartan 3 Evalutaion Board
+
+ To synthesize the design just include soc.vhd,
+ soc.ucf and /hardware/unify/embedded_la.vhd.

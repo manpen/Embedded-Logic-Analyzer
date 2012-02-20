@@ -1,0 +1,9 @@
+ENGLISH:
+ There is no explicit english documentation yet, but each
+ vhd-file contains a brief introduction, and the c++ codes
+ include doxygen annotations.
+
+DEUTSCH:
+ Dieses Projekt ist das Ergebnis einer Bachelorarbeit aus dem
+ Jahr 2011, die einige Aspekte der Implementierung genauer 
+ beleuchtet. Sie befindet sich im Repo.

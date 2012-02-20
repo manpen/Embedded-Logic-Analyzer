@@ -1,0 +1,7 @@
+PROJECT_NAME=wbi
+PROJECT_NUMBER=1
+PROJECT_BRIEF="C++ implementation of the Logic Analyzer Interface"
+OUTPUT_DIRECTORY=docs
+
+RECURSIVE=yes
+EXCLUDE=qextserial .git tests

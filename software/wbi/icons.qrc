@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/images">
+        <file alias="refresh.svg">icons/refresh.svg</file>
+        <file alias="show-config.svg">icons/show-config.svg</file>
+        <file alias="reset.svg">icons/reset.svg</file>
+        <file alias="tpg.svg">icons/tpg.svg</file>
+        <file alias="application.svg">icons/application.svg</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,13 @@
+There are two versions of this project:
+
+1) Single File version
+  This version combines all entities and packages
+  in one file and makes them available in the common
+  library EMBEDDED_LA. To use it just import the file
+  unify/embedded_la.vhd into your project and adopt the
+  configuration in the head of the file.
+
+2) Development version with one file per entity
+  This version is used for development but its quite
+  tedious to embedded it into other project as it contains
+  about 40 files and 3 vhdl libraries.

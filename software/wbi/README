@@ -1,0 +1,16 @@
+Small graphical client software for the Logic Analyzer.
+It is based on Qt 4.7 but may compile against newer Versions
+of the framework as well. It includes code from the Qextserial
+project. 
+
+Software was tested on Ubuntu Linux 11.10 64 Bit and Windows 7
+32 & 64 Bit. Both compiled with GCC 4.6. 
+
+Steps to compile:
+1.) Run "qmake"
+2.) Run "make"
+
+The executable can be found in the build-folder.
+
+Steps to build documenation:
+1.) Run "doxygen"

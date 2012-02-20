@@ -1,0 +1,34 @@
+NET "sys_clk_i" TNM_NET = sys_clk_i;
+TIMESPEC TS_sys_clk_i = PERIOD "sys_clk_i" 60 MHz HIGH 50%;
+#NET "my_seg7/clk_div_l1" TNM_NET = my_seg7/clk_div_l1;
+#TIMESPEC TS_my_seg7_clk_div_l1 = PERIOD "my_seg7/clk_div_l1" 200 KHz HIGH 50%;
+NET "my_rs232/inst_uart/Uart_RxUnit/RRegL" TNM_NET = my_rs232/inst_uart/Uart_RxUnit/RRegL;
+TIMESPEC TS_my_rs232_inst_uart_Uart_RxUnit_RRegL = PERIOD "my_rs232/inst_uart/Uart_RxUnit/RRegL" 50 MHz HIGH 50%;
+INST "segment7_o<0>" TNM = TGN_SEG7;
+INST "segment7_o<1>" TNM = TGN_SEG7;
+INST "segment7_o<2>" TNM = TGN_SEG7;
+INST "segment7_o<3>" TNM = TGN_SEG7;
+INST "segment7_o<4>" TNM = TGN_SEG7;
+INST "segment7_o<5>" TNM = TGN_SEG7;
+INST "segment7_o<6>" TNM = TGN_SEG7;
+INST "segment7_o<7>" TNM = TGN_SEG7;
+INST "segment7_o<8>" TNM = TGN_SEG7;
+INST "segment7_o<9>" TNM = TGN_SEG7;
+INST "segment7_o<10>" TNM = TGN_SEG7;
+TIMEGRP "TGN_SEG7" OFFSET = OUT 20 ns AFTER "sys_clk_i";
+
+NET "my_rs232/inst_uart/LoadA" TNM_NET = my_rs232/inst_uart/LoadA;
+TIMESPEC TS_my_rs232_inst_uart_LoadA = PERIOD "my_rs232/inst_uart/LoadA" 50 MHz HIGH 50%;
+
+
+#NET "jtag_data_reg_l_clk" TNM_NET = jtag_data_reg_l_clk;
+#NET "jtag_op_reg_l_clk" TNM_NET = jtag_op_reg_l_clk;
+#NET "jtag_data_reg_l_sel" TNM_NET = jtag_data_reg_l_sel;
+#NET "jtag_state_l_update" TNM_NET = jtag_state_l_update;
+#Created by Constraints Editor (xc3s200-ft256-4) - 2011/10/23
+#NET "jtag_data_reg_l_clk1" TNM_NET = jtag_data_reg_l_clk1;
+#Created by Constraints Editor (xc3s200-ft256-4) - 2011/10/23
+#TIMESPEC TS_jtag_data_reg_l_clk1 = PERIOD "jtag_data_reg_l_clk1" 50 MHz HIGH 50%;
+#TIMESPEC TS_jtag_op_reg_l_clk = PERIOD "jtag_op_reg_l_clk" 50 MHz HIGH 50%;
+#NET "jtag_state_l_update1" TNM_NET = jtag_state_l_update1;
+#TIMESPEC TS_jtag_state_l_update1 = PERIOD "jtag_state_l_update1" 50 MHz HIGH 50%;
