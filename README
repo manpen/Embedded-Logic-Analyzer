@@ -1,5 +1,5 @@
 This project is under development and not intended
-for public use. While the hardware should work quite
+for public use yet. While the hardware should work quite
 well with the Xilinx Toolchain (tested with Spartan 3
 and Virtex 4), the software client is rarely tested.
 
