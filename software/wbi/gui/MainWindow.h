@@ -49,6 +49,12 @@ public slots:
     void triggerSetupChange();
     void triggerTimingChanged();
 
+// Clock Divider
+    void systemClockChanged();
+    void clockDividerChanged();
+    void clockDividerFinished();
+
+
 private:
     Ui::MainWindow *ui;
     LogicAnalyzer *la;
@@ -75,6 +81,14 @@ private:
 
     /** @brief Create trigger matrix */
     void _setupTriggerUI();
+
+    unsigned int _systemClock;
+    unsigned int _clockDivider;
+
+    void _updateTimebase(bool updateControls = false);
+    QString _normalizeTime(double seconds);
+    QString _normalizeFrequency(double frq);
+
 };
 
 #endif // MAINWINDOW_H

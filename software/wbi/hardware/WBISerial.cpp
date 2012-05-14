@@ -285,8 +285,8 @@ void WBISerial::_set_address(unsigned int address, bool force) {
     QString sendBuffer;
     QTextStream stream(&sendBuffer);
 
-    if (!force && _currentAddress == int(address))
-        return;
+    //if (!force && _currentAddress == int(address))
+    //    return;
 
     stream.setIntegerBase(16);
     stream << "X" << address;
@@ -317,12 +317,12 @@ void WBISerial::_set_length(unsigned int length, bool force) {
     QString sendBuffer;
     QTextStream stream(&sendBuffer);
 
-    if (!force
+    /*if (!force
         && (_currentLength >= int(length))
         && (_currentLength - 2 <= int(length))
        )
         return;
-
+*/
     stream.setIntegerBase(16);
     stream << "Z" << length;
     stream << BitVector::fromInt(length, sendBuffer.size()*4-4).crc(

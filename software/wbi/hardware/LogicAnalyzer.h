@@ -154,6 +154,9 @@ struct LogicAnalyzerAddresses {
 
     /** first address of sampling memory mapped into the wishbone address scheme*/
     int memBase;
+
+    /** Returns a human-readable representation of the configuration struct */
+    QString toString() const;
 };
 
 enum LogicAnalyzerSamplingStatus {

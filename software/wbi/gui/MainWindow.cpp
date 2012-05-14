@@ -8,6 +8,10 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include <QIntValidator>
+
+#include "math.h"
+
 #include "hardware/VCDExport.h"
 
 MainWindow::MainWindow(QWidget *parent, LogicAnalyzer *la) :
@@ -20,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent, LogicAnalyzer *la) :
 {
     this->la = la;
     _disableHardwareUpdates = true;
+
+    _systemClock = _settings.value("systemClock", 50000000).toUInt();
+    _clockDivider = qMax((unsigned int)1, _settings.value("clockDivider", 1).toUInt());
 
 // UI
     ui->setupUi(this);
@@ -34,6 +41,22 @@ MainWindow::MainWindow(QWidget *parent, LogicAnalyzer *la) :
 
     ui->groupBoxVCD->layout()->setAlignment(
                 ui->buttonDownload, Qt::AlignRight);
+
+ /* Timebase */
+    ui->comboSystemClockUnit->addItem("Hz");
+    ui->comboSystemClockUnit->addItem("KHz");
+    ui->comboSystemClockUnit->addItem("MHz");
+    ui->lineEditSystemClock->setValidator(new QIntValidator(this));
+
+    if (la->configuration().clockDividerWidth) {
+        ui->sliderClockDivider->setMaximum(la->configuration().clockDividerWidth * 2);
+    } else {
+        ui->sliderClockDivider->setEnabled(false);
+    }
+
+     _clockDivider = qMin(_clockDivider, 1u << la->configuration().clockDividerWidth);
+
+    _updateTimebase(true);
 
     _tpgActionGroup = new QActionGroup(this);
     _tpgActionGroup->addAction(ui->menuTPG_Off);
@@ -115,6 +138,7 @@ void MainWindow::sendColdReset() {
     _disableHardwareUpdates = false;
 
     triggerTimingChanged();
+    clockDividerFinished();
 }
 
 void MainWindow::refreshLAStatus() {
@@ -132,7 +156,7 @@ void MainWindow::refreshLAStatus() {
 
         case CAPTURING:
             ui->labelMemoryStatusValue->setText(tr("Capturing (triggered)"));
-            ui->buttonDownload->setEnabled(true);
+            ui->buttonDownload->setEnabled(false);
             break;
 
         case FULL:
@@ -214,6 +238,7 @@ void MainWindow::vcdDownloadFile() {
                         QMessageBox::Ok, this).exec();
         } else {
             VCDExport vcd;
+            vcd.setTimescale( QString("%1ns").arg( double(_clockDivider) / double(_systemClock) * 1e9 , 0, 'f', 0) );
             QTextStream ts(&file);
             vcd.generateVCD(ts, data);
         }
@@ -275,13 +300,13 @@ void MainWindow::_setupTriggerUI() {
 
     // Initialize checkboxes and buttons (but dont show them yet)
     for(int i=0; i < la->configuration().triggerEdgeCount; i++) {
-        _triggerCheckboxes.push_back(new QCheckBox(tr("Edge").arg(i+1), this));
+        _triggerCheckboxes.push_back(new QCheckBox(tr("Edge %1").arg(i+1), this));
         _triggerButtons.push_back(new TriggerButtons(edgeStates,
             la->configuration().triggerInputWidth, this));
     }
 
     for(int i=0; i < la->configuration().triggerValueCount; i++) {
-        _triggerCheckboxes.push_back(new QCheckBox(tr("Value").arg(i+1), this));
+        _triggerCheckboxes.push_back(new QCheckBox(tr("Value %1").arg(i+1), this));
         _triggerButtons.push_back(new TriggerButtons(valueStates,
             la->configuration().triggerInputWidth, this));
     }
@@ -346,6 +371,95 @@ void MainWindow::triggerSetupChange() {
                               _triggerButtons[id]->bitVector(0));
         la->writeTriggerSetup(triggerId, EDGE_SENSITIVITY,
                               _triggerButtons[id]->bitVector(1));
+    }
+}
+
+void MainWindow::systemClockChanged() {
+    if (_disableHardwareUpdates) return;
+
+    int clock = ui->lineEditSystemClock->text().toUInt() * (unsigned int) pow(1000, ui->comboSystemClockUnit->currentIndex());
+
+    if (!clock) return;
+
+    _systemClock = clock;
+
+    _settings.setValue("systemClock", _systemClock);
+
+    _updateTimebase();
+}
+
+void MainWindow::clockDividerChanged() {
+    if (_disableHardwareUpdates) return;
+
+    _clockDivider = qMax(1u, qMin(1u << la->configuration().clockDividerWidth,
+      (unsigned int) round(pow(2.0, double(ui->sliderClockDivider->value()) / 2.0))));
+
+    _settings.setValue("clockDivider", _clockDivider);
+    _updateTimebase();
+}
+
+void MainWindow::clockDividerFinished() {
+    clockDividerChanged();
+
+    la->writeClockDividerThreshold(BitVector::fromInt(_clockDivider - 1));
+}
+
+void MainWindow::_updateTimebase(bool updateControls) {
+    if (updateControls) {
+        // normalize system clock
+        unsigned int clock = _systemClock;
+        for(int i = 0; i < ui->comboSystemClockUnit->count(); i++) {
+            if (clock < 1000 || i == ui->comboSystemClockUnit->count() - 1) {
+                ui->comboSystemClockUnit->setCurrentIndex(i);
+                ui->lineEditSystemClock->setText( QString("%1").arg(clock));
+            }
+
+            clock /= 1000;
+        }
+
+        // update divider
+        ui->sliderClockDivider->setValue(
+            (int) round(log2(double(_clockDivider)) * 2.0)
+        );
+    }
+
+    ui->labelSamplingFrequency->setText(_normalizeFrequency(double(_systemClock) / double(_clockDivider)));
+    ui->labelTimeResolution->setText(_normalizeTime(double(_clockDivider) / double(_systemClock)));
+    ui->labelTotalSamplingTime->setText(_normalizeTime(
+        double(la->configuration().memoryMaxAddress) / ceil(double(la->configuration().bankWidth) / 8.0) / la->configuration().bankCount
+        * double(_clockDivider) / double(_systemClock)));
+}
+
+QString MainWindow::_normalizeTime(double seconds) {
+    QStringList ql;
+    ql.append("s");
+    ql.append("ms");
+    ql.append("us");
+    ql.append("ns");
+    ql.append("ps");
+
+    for(int i=0; i < ql.count(); i++) {
+        if (seconds >= 1.0 || i+1 == ql.count()) {
+            return  QString("%1").arg(seconds, 0, 'f', 1).append(ql.at(i));
+        }
+
+        seconds *= 1000.0;
+    }
+}
+
+QString MainWindow::_normalizeFrequency(double frq) {
+    QStringList ql;
+    ql.append("Hz");
+    ql.append("KHz");
+    ql.append("MHz");
+    ql.append("GHz");
+
+    for(int i=0; i < ql.count(); i++) {
+        if (frq < 1000.0 || i+1 == ql.count()) {
+            return QString("%1").arg(frq, 0, 'f', 1).append(ql.at(i));
+        }
+
+        frq /= 1000.0;
     }
 }
 

@@ -12,7 +12,7 @@
 #include "gui/SerialPortChooser.h"
 #include "gui/MainWindow.h"
 
-#define MAIN_SKIP_PORT_CHOOSER 1
+//#define MAIN_SKIP_PORT_CHOOSER 1
 
 
 using namespace std;
@@ -84,7 +84,21 @@ int main(int argc, char ** argv) {
     MainWindow main(0, &la);
     main.show();
 
-    int ret = app.exec();
+    int ret;
+    try {
+        ret = app.exec();
+    } catch (WBITimeoutException w) {
+        QMessageBox(QMessageBox::Critical, QObject::tr("Error"),
+                    QObject::tr("While communication with hardware an timeout occured"),
+                    QMessageBox::Ok).exec();
+
+        return -1;
+    } catch (...) {
+        QMessageBox(QMessageBox::Critical, QObject::tr("Error"),
+                    QObject::tr("An unknown error ocurred which this application cannot recover from"),
+                    QMessageBox::Ok).exec();
+        return -1;
+    }
 
     try {la.disconnect();} catch(...) {}
     try {wbi.disconnect();} catch(...) {}

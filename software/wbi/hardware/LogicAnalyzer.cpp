@@ -40,11 +40,42 @@ QString LogicAnalyzerConfiguration::toString() const {
     return result;
 }
 
+QString LogicAnalyzerAddresses::toString() const {
+    QString result;
+    QTextStream stream(&result);
+
+    stream.setIntegerBase(16);
+
+    stream
+        <<  "sizeMuxSetup: " << sizeMuxSetup << endl
+        << "sizeClkThreshold: " << sizeClkThreshold << endl
+        << "sizeMemAddress: " << sizeMemAddress << endl
+        << "sizeCurData: " << sizeCurData << endl
+        << "sizeTriggerEnableMask: " << sizeTriggerEnableMask << endl
+        << "sizeTriggerRegister: " << sizeTriggerRegister << endl
+        << "status: " << status << endl
+        << "muxSetup: " << muxSetup << endl
+        << "clkThreshold: " << clkThreshold << endl
+        << "memMaxAddress: " << memMaxAddress << endl
+        << "memBaseOffset: " << memBaseOffset << endl
+        << "memBaseAddress: " << memBaseAddress << endl
+        << "memTrgAddress: " << memTrgAddress << endl
+        << "memCurAddress: " << memCurAddress << endl
+        << "curData: " << curData << endl
+        << "trgEnable: " <<trgEnable  << endl
+        << "trgEdgeSetup: " << trgEdgeSetup << endl
+        << "trgValueSetup: " << trgValueSetup << endl
+        << "memBase: " << memBase << endl
+   ;
+
+   return result;
+}
+
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //!! LOGIC ANALYZER
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 #define REGISTER_NUMBER(x) int(ceil(float(x)/_wbi->getDataWidth()))
-#define ADDRESS_WIDTH(x) int(ceil(log2(x)))
+#define ADDRESS_WIDTH(x) int(ceil(log2(x+1)))
 #define READ_REGISTERS(addr, regs) BitVector::fromVector(_wbi->readBlock(addr, regs))
 
 #define ASSERT_CONNECTION if(!_connected) throw LogicAnalyzerConnectionException();
@@ -70,6 +101,8 @@ void LogicAnalyzer::connect() {
     Q_ASSERT((unsigned int)_config.memoryAddressWidth < 8*sizeof(int));
 
     _addresses = _calcAddresses(_config);
+
+    qDebug() << _addresses.toString();
 
     // complete configuration
     _config.memoryMaxAddress = READ_REGISTERS(_addresses.memMaxAddress,

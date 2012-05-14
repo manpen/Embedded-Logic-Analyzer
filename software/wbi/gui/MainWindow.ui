@@ -97,6 +97,166 @@
      </widget>
     </item>
     <item>
+     <widget class="QGroupBox" name="groupBoxSystemClockUnit">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="title">
+       <string>Timebase</string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="2" column="1">
+        <widget class="QLabel" name="label_5">
+         <property name="styleSheet">
+          <string notr="true">font-size: 0.8em; font-style: italic;</string>
+         </property>
+         <property name="text">
+          <string>Fast</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QSlider" name="sliderClockDivider">
+         <property name="maximum">
+          <number>255</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QComboBox" name="comboSystemClockUnit"/>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="lineEditSystemClock">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This value is used to calculate the timescale. It does not affect the hardware&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Sampling Speed: </string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>System Clock:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="label_6">
+         <property name="styleSheet">
+          <string notr="true">font-size: 0.8em; font-style: italic;</string>
+         </property>
+         <property name="text">
+          <string>Slow</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <widget class="QWidget" name="widget" native="true">
+         <layout class="QGridLayout" name="gridLayout_5" columnminimumwidth="0,0,0">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <item row="0" column="1">
+           <widget class="QLabel" name="label_8">
+            <property name="styleSheet">
+             <string notr="true">font-weight: bold; 
+</string>
+            </property>
+            <property name="text">
+             <string>Time resolution</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_9">
+            <property name="styleSheet">
+             <string notr="true">font-weight:bold;</string>
+            </property>
+            <property name="text">
+             <string>Total sampling time</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="styleSheet">
+             <string notr="true">font-weight:bold;</string>
+            </property>
+            <property name="text">
+             <string>Sampling Frequency</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelSamplingFrequency">
+            <property name="text">
+             <string># MHz</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="labelTimeResolution">
+            <property name="text">
+             <string># ns</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLabel" name="labelTotalSamplingTime">
+            <property name="text">
+             <string># us</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
      <widget class="QGroupBox" name="groupTrigger">
       <property name="styleSheet">
        <string notr="true"/>
@@ -193,7 +353,7 @@
      <x>0</x>
      <y>0</y>
      <width>422</width>
-     <height>25</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -401,8 +561,8 @@
    <slot>vcdFileChooser()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>641</x>
-     <y>478</y>
+     <x>403</x>
+     <y>457</y>
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
@@ -481,11 +641,75 @@
    <slot>vcdDownloadFile()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>738</x>
-     <y>478</y>
+     <x>172</x>
+     <y>491</y>
     </hint>
     <hint type="destinationlabel">
      <x>399</x>
+     <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEditSystemClock</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>systemClockChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>210</x>
+     <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboSystemClockUnit</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>systemClockChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>364</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>210</x>
+     <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sliderClockDivider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clockDividerChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>217</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>210</x>
+     <y>266</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sliderClockDivider</sender>
+   <signal>sliderReleased()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>clockDividerFinished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>268</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>210</x>
      <y>266</y>
     </hint>
    </hints>
@@ -499,5 +723,8 @@
   <slot>refreshLAStatus()</slot>
   <slot>loadLASettings()</slot>
   <slot>vcdFileChooser()</slot>
+  <slot>systemClockChanged()</slot>
+  <slot>clockDividerChanged()</slot>
+  <slot>clockDividerFinished()</slot>
  </slots>
 </ui>

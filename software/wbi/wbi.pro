@@ -2,7 +2,11 @@ PROJECT                 = Wishbone Connector
 TEMPLATE                = app
 VERSION                 = 0.0.1
 DESTDIR                 = build
-CONFIG                 += debug
+#CONFIG                 += debug
+config                  += release
+config                  -= console
+
+QMAKE_LFLAGS_CONSOLE	= -Wl,-subsystem,wi
 
 OBJECTS_DIR             = tmp
 MOC_DIR                 = tmp
@@ -49,10 +53,9 @@ win32 {
   SOURCES += qextserial/win_qextserialport.cpp  \
     qextserial/qextserialenumerator_win.cpp
   DEFINES          += WINVER=0x0501 # needed for mingw to pull in appropriate dbt business...probably a better way to do this
-  LIBS    += -lsetupapi
+  LIBS    += -lsetupapi -lqtmain
 
-  release:CONFIG -= console
-  debug:CONFIG += console
+#  debug:CONFIG += console
 }
 
 OTHER_FILES += \
@@ -66,4 +69,4 @@ FORMS += \
 RESOURCES += \
     icons.qrc
 
- RC_FILE = app-icon.rc
+RC_FILE = app-icon.rc
